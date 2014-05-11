@@ -1,40 +1,40 @@
 # ansible-roles
 
-#### debian-prereq
+## debian-prereq
 
   * Updates apt cache
   * Installs git, ntp, vim, build tools, python utilities for ansible
   * Updates `/etc/motd` to indicate server is managed by Ansible
   * Creates a `/home/ansible/src` for unpacking software to be installed from source
 
-#### mysql-server
+## mysql-server
 
   * Installs MySQL server and starts it
 
-#### nginx-passenger
+## nginx-passenger
 
   * Installs nginx and Passenger from source
   * Install nginx init script and set it to start on boot
   * Set up vhost directories `/etc/sites-{enabled,available}`
   * Set up log rotation
 
-##### Dependencies
+### Dependencies
 
   * ruby-1.9.3
 
-##### Configuration
+### Configuration
 
 Variables exist for setting desired nginx and Passenger versions
 
-#### nginx-vhosts
+## nginx-vhosts
 
 Sets up any number of nginx vhosts based on either predefined or custom templates.
 
-##### Dependencies
+### Dependencies
 
   * nginx-passenger
 
-##### Configuration
+### Configuration
 
 Set up desired vhosts as array of hashes in `vars/main.yml`.
 
@@ -45,19 +45,19 @@ Keys:
   * `server_name`: server name field (space separated list of hostnames)
   * `location`: location of web app; interpretation of this variable depends on the template being used
 
-#### non-privileged-users
+## non-privileged-users
 
 Sets up any number of non-privileged users.
 
-##### Configuration
+### Configuration
 
 Set up desired users and groups in `vars/main.yml`.
 
-#### ruby-1.9.3
+## ruby-1.9.3
 
-#### ruby-common
+## ruby-common
 
-#### sanitized-debian
+## sanitized-debian
 
 Cleans up a fresh Debian installation:
 
