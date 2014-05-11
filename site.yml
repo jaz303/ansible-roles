@@ -1,0 +1,14 @@
+---
+
+- hosts: site
+  user: root
+  sudo: yes
+
+  roles:
+    - debian-prereq
+    - sanitized-debian
+    - mysql-server
+    - non-privileged-users
+    - ruby-1.9.3
+    - nginx-passenger
+    - nginx-vhosts

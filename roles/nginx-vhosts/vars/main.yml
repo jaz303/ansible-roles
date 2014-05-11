@@ -1,0 +1,6 @@
+---
+nginx_vhosts:
+  - name: "site"
+    template: "passenger-default"
+    server_name: "localhost"
+    location: "/home/web/site"

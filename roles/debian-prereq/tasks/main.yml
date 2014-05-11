@@ -1,0 +1,30 @@
+---
+
+- name: Update apt cache
+  apt: update_cache=yes
+
+- name: Install git
+  apt: pkg=git
+
+- name: Install ntp
+  apt: pkg=ntp
+
+- name: Install vim
+  apt: pkg=vim
+
+- name: Install build prerequisites
+  apt: pkg={{item}}
+  with_items:
+    - autoconf
+    - build-essential
+
+- name: Install python-software-properties so the apt_repository module will work properly
+  apt: pkg=python-software-properties
+
+- name: Update motd
+  copy: src=motd dest=/etc/motd owner=root group=root mode=644
+
+- name: Create the source directory
+  sudo: no
+  file: path={{ source_directory }}
+        state=directory

@@ -1,0 +1,3 @@
+---
+non_privileged_users:
+  - { name: "web", groups: "ssh,www-data" }

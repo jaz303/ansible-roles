@@ -1,0 +1,8 @@
+---
+- name: create non-privileged users
+  user: name={{ item.name }} state=present shell="/bin/bash" groups={{ item.groups }} home=/home/{{ item.name }}
+  with_items: non_privileged_users
+
+- name: create .ssh directories for non-privileged users
+  file: path="/home/{{ item.name }}/.ssh" state=directory owner={{ item.name }} group={{ item.name }} mode=0700
+  with_items: non_privileged_users

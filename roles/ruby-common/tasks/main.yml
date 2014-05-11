@@ -1,0 +1,37 @@
+---
+- name: Update apt cache
+  sudo: yes
+  apt: update_cache=yes
+
+- name: Install Ruby dependencies
+  sudo: yes
+  apt: pkg={{ item }} state=present
+  with_items:
+    - libreadline-dev
+    - libssl-dev
+    - libyaml-dev
+    - zlib1g-dev
+
+- name: Download the Ruby source code
+  sudo: no
+  get_url: url={{ ruby_download_location }}
+           dest={{ source_directory }}
+           sha256sum={{ ruby_checksum }}
+
+- name: Generate the Ruby installation script on the server
+  sudo: no
+  template: src=install-ruby.sh
+            dest={{ source_directory }}/install-ruby-{{ ruby_version }}.sh
+            owner=ansible
+            group=ansible
+            mode=700
+
+- name: Run the Ruby installation script
+  sudo: no
+  command: "{{ source_directory }}/install-ruby-{{ ruby_version }}.sh
+           creates={{ ruby_location }}/bin/ruby"
+
+- name: Install Bundler
+  sudo: yes
+  command: "{{ ruby_location }}/bin/gem install bundler
+           creates={{ ruby_location }}/bin/bundle"

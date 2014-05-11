@@ -1,0 +1,17 @@
+---
+
+- name: Disable rpcbind
+  service: name=rpcbind state=stopped enabled=no
+
+- name: Disable exim
+  service: name=exim4 state=stopped enabled=no
+
+- name: Install postfix
+  apt: pkg=postfix state=latest
+
+- name: Ensure postfix is configured securely
+  template: src=postfix_main.cf
+            dest=/etc/postfix/main.cf
+            owner=root
+            group=root
+            mode=0644
