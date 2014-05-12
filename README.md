@@ -1,4 +1,4 @@
-# ansible-roles
+=# ansible-roles
 
 ## debian-prereq
 
@@ -52,6 +52,14 @@ Sets up any number of non-privileged users.
 ### Configuration
 
 Set up desired users and groups in `vars/main.yml`.
+
+## restricted-ssh
+
+Makes `ssh` more secure:
+
+  * Root login disabled
+  * Login disabled to `ssh` group
+  * Password login disabled
 
 ## ruby-1.9.3
 
