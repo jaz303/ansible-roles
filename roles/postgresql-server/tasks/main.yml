@@ -1,0 +1,14 @@
+---
+
+- name: Ensure apt cache is up to date
+  apt: update_cache=yes
+
+- name: Ensure PostgreSQL packages are installed
+  apt: pkg={{ item }} state=latest
+  with_items:
+    - postgresql
+    - libpq-dev
+    - python-psycopg2
+
+- name: Ensure PostgreSQL is running
+  service: name=postgresql state=started
