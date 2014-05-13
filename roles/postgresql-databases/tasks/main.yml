@@ -1,16 +1,22 @@
 ---
 
 - name: Ensure PostgreSQL databases exist
-  postgresql_db: name={{ item }} state=present
+  sudo: yes
+  sudo_user: postgres
+  postgresql_db: name={{ item.name }} state=present
   with_items: postgresql_databases
 
 - name: Ensure PostgreSQL users exist
+  sudo: yes
+  sudo_user: postgres
   postgresql_user: name={{ item.username }}
                    password={{ item.password }}
                    state=present
   with_items: postgresql_users
 
 - name: Ensure PostgreSQL users have access to their assigned databases
+  sudo: yes
+  sudo_user: postgres
   postgresql_user: name={{ item.0.username }}
                    db={{ item.1 }}
                    priv=ALL
@@ -20,6 +26,8 @@
     - databases
 
 - name: Ensure PostgreSQL users no not have unnecessary privilege
+  sudo: yes
+  sudo_user: postgres
   postgresql_user: name={{ item.username }}
-                   role_attr_flags=NOSUPERUSER,NOCREATEDB,NOCREATEUSER
+                   role_attr_flags=NOSUPERUSER,NOCREATEDB
   with_items: postgresql_users
