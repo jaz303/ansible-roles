@@ -65,18 +65,18 @@
               regexp=^PermitRootLogin
               line='PermitRootLogin no'
               state=present
+  notify: ssh.restart
 
 - name: Ensure only ssh group can log in over SSH
   lineinfile: dest=/etc/ssh/sshd_config
               regexp=^AllowGroups
               line='AllowGroups ssh'
               state=present
+  notify: ssh.restart
 
 - name: Ensure password login with SSH is disabled
   lineinfile: dest=/etc/ssh/sshd_config
               regexp=^PasswordAuthentication
               line='PasswordAuthentication no'
               state=present
-
-- name: Restart ssh
-  service: name=ssh state=restarted
+  notify: ssh.restart
