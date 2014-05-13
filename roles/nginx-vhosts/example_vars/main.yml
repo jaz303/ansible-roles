@@ -4,3 +4,4 @@ nginx_vhosts:
     template: "passenger-default"
     server_name: "localhost"
     location: "/home/web/site"
+    rack_env: production # optional, defaults to 'production'
