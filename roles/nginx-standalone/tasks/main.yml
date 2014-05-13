@@ -1,0 +1,54 @@
+---
+
+- name: Download the nginx source code
+  sudo: no
+  get_url: url={{ nginx_download_url }}
+           dest={{ source_directory }}
+           sha256sum={{ nginx_checksum }}
+
+- name: Generate the nginx installation script on the server
+  sudo: no
+  template: src=install-nginx.sh
+            dest={{ source_directory }}/install-nginx.sh
+            mode=700
+
+- name: Run the nginx installation script
+  sudo: no
+  command: "{{ source_directory }}/install-nginx.sh
+           creates={{ nginx_location }}/sbin/nginx"
+
+- name: Generate the nginx configuration file and restart the service if it has been updated
+  sudo: yes
+  template: src=nginx.conf
+            dest={{ nginx_location }}/conf/nginx.conf
+            owner=root
+            group=root
+  notify: nginx.restart
+
+- name: Generate nginx init script and restart the service if it has been updated
+  template: src=init-nginx
+            dest=/etc/init.d/nginx
+            owner=root
+            group=root
+            mode=755
+  notify: nginx.restart
+
+- name: Enable the nginx init script so the service will start at boot
+  command: update-rc.d nginx defaults
+           creates=/etc/rc0.d/K01nginx
+
+- name: Set up nginx vhost directories
+  sudo: yes
+  file: path=/etc/nginx/{{ item }}
+        state=directory
+  with_items:
+    - sites-available
+    - sites-enabled
+
+- name: Set up log rotation for nginx
+  sudo: yes
+  template: src=logrotate-nginx
+            dest=/etc/logrotate.d/nginx
+            owner=root
+            group=root
+            mode=644
