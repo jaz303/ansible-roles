@@ -1,5 +1,9 @@
 # ansible-roles
 
+A selection of (hopefully) reusable roles for use with Ansible/Debian. I'm still finding my feet with Ansible but my gut feeling so far is that it's better use small, loosely coupled roles as the basic elements of reuse rather than full playbooks.
+
+I've also provided a `bootstrap` script for prepping a fresh server for management with Ansible. All that you need is the root passord, hostname and a public key for the `ansible` user. See the script for more details.
+
 ## debian-prereq
 
   * Updates apt cache
