@@ -14,9 +14,9 @@ I've also provided a `bootstrap` script for prepping a fresh server for manageme
   * Disables `exim`
   * Installs `postfix`
   * Configures `postfix` as a send-only server and restricts it to the local interface
-  * Root ssh login disabled
-  * Login disabled to `ssh` group
-  * Password login disabled
+  * Root SSH login disabled
+  * SSH login restricted to `ssh` group
+  * SSH password login disabled
 
 ## mysql-server
 
