@@ -1,0 +1,46 @@
+#!/bin/bash
+ 
+# usage: boostrap mybox.example.com path/to/id_rsa.pub
+ 
+# preconditions: fresh install of Debian with ssh installed/running
+# effects:
+#  - hostname is set
+#  - `ansible` user created with disabled password and added to sudo/ssh groups
+#  - specified public key added to user's authorized_keys
+#  - sudoers updated to allow no password operations
+ 
+HOSTNAME="$(echo "$1" | cut -d '.' -f 1)"
+KEY=$(cat $2)
+ 
+ssh root@$1 <<BOOTSTRAP
+ 
+#
+# Hostname
+ 
+hostname "${HOSTNAME}"
+echo "127.0.1.1 ${HOSTNAME} $1" >> /etc/hosts
+ 
+#
+# Ansible user
+ 
+adduser --disabled-password --gecos "" ansible
+usermod -a -G sudo ansible
+usermod -a -G ssh ansible
+ 
+#
+# SSH key for ansible user
+ 
+mkdir ~ansible/.ssh
+echo "$KEY" > ~ansible/.ssh/authorized_keys
+chown -R ansible:ansible ~ansible/.ssh
+chmod 700 ~ansible/.ssh
+chmod 600 ~ansible/.ssh/authorized_keys
+ 
+#
+# Update sudoers
+ 
+cp /etc/sudoers sudoers.tmp
+sed -i '/%sudo/c\%sudo ALL=(ALL:ALL) NOPASSWD: ALL' sudoers.tmp
+visudo -c -f sudoers.tmp && mv sudoers.tmp /etc/sudoers
+ 
+BOOTSTRAP
