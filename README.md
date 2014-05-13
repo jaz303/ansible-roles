@@ -6,6 +6,13 @@
   * Installs git, ntp, vim, build tools, python utilities for ansible
   * Updates `/etc/motd` to indicate server is managed by Ansible
   * Creates a `/home/ansible/src` for unpacking software to be installed from source
+  * Disables `rpcbind`
+  * Disables `exim`
+  * Installs `postfix`
+  * Configures `postfix` as a send-only server and restricts it to the local interface
+  * Root ssh login disabled
+  * Login disabled to `ssh` group
+  * Password login disabled
 
 ## mysql-server
 
@@ -53,23 +60,6 @@ Sets up any number of non-privileged users.
 
 Set up desired users and groups in `vars/main.yml`.
 
-## restricted-ssh
-
-Makes `ssh` more secure:
-
-  * Root login disabled
-  * Login disabled to `ssh` group
-  * Password login disabled
-
 ## ruby-1.9.3
 
 ## ruby-common
-
-## sanitized-debian
-
-Cleans up a fresh Debian installation:
-
-  * Disables `rpcbind`
-  * Disables `exim`
-  * Installs `postfix`
-  * Configures `postfix` as a send-only server and restricts it to the local interface

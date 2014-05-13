@@ -1,5 +1,8 @@
 ---
 
+#
+# Essentials
+
 - name: Update apt cache
   apt: update_cache=yes
 
@@ -21,10 +24,59 @@
 - name: Install python-software-properties so the apt_repository module will work properly
   apt: pkg=python-software-properties
 
+#
+# MOTD
+
 - name: Update motd
   copy: src=motd dest=/etc/motd owner=root group=root mode=644
+
+#
+# Source directory for compiling packages from source
 
 - name: Create the source directory
   sudo: no
   file: path={{ source_directory }}
         state=directory
+
+#
+# Services the way I like them
+
+- name: Disable rpcbind
+  service: name=rpcbind state=stopped enabled=no
+
+- name: Disable exim
+  service: name=exim4 state=stopped enabled=no
+
+- name: Install postfix
+  apt: pkg=postfix state=latest
+
+- name: Ensure postfix is configured securely
+  template: src=postfix_main.cf
+            dest=/etc/postfix/main.cf
+            owner=root
+            group=root
+            mode=0644
+
+#
+# SSH lockdown
+
+- name: Ensure root login over SSH is disabled
+  lineinfile: dest=/etc/ssh/sshd_config
+              regexp=^PermitRootLogin
+              line='PermitRootLogin no'
+              state=present
+
+- name: Ensure only ssh group can log in over SSH
+  lineinfile: dest=/etc/ssh/sshd_config
+              regexp=^AllowGroups
+              line='AllowGroups ssh'
+              state=present
+
+- name: Ensure password login with SSH is disabled
+  lineinfile: dest=/etc/ssh/sshd_config
+              regexp=^PasswordAuthentication
+              line='PasswordAuthentication no'
+              state=present
+
+- name: Restart ssh
+  service: name=ssh state=restarted
