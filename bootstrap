@@ -1,6 +1,6 @@
 #!/bin/bash
  
-# usage: boostrap mybox.example.com path/to/id_rsa.pub
+# usage: boostrap mybox.example.com path/to/local/id_rsa.pub
  
 # preconditions: fresh install of Debian with ssh installed/running
 # effects:
