@@ -6,6 +6,7 @@
             group=root
             mode=0644
   with_items: nginx_vhosts
+  notify: nginx.restart
 
 - name: Enable nginx vhosts
   file: path=/etc/nginx/sites-enabled/{{ item.name }}.conf
