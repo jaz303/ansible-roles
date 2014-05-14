@@ -1,5 +1,15 @@
 ---
 
+- name: Install the nginx dependencies
+  sudo: yes
+  apt: pkg={{ item }}
+       state=present
+  with_items:
+    - libpcre3
+    - libpcre3-dev
+    - zlib1g
+    - zlib1g-dev
+
 - name: Download the nginx source code
   sudo: no
   get_url: url={{ nginx_download_url }}
