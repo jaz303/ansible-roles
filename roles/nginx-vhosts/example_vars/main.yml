@@ -1,7 +1,7 @@
 ---
 nginx_vhosts:
   - name: "site"
-    template: "passenger-default"
+    template: "passenger-default.conf"
     server_name: "localhost"
     location: "/home/web/site"
     rack_env: production # optional, defaults to 'production'
