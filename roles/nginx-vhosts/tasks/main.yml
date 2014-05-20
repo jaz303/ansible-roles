@@ -1,6 +1,6 @@
 ---
 - name: Setup nginx vhosts
-  template: src={{ item.template }}.conf
+  template: src={{ item.template }}
             dest=/etc/nginx/sites-available/{{ item.name }}.conf
             owner=root
             group=root

@@ -33,7 +33,7 @@
 
 - name: Generate the nginx configuration file and restart the service if it has been updated
   sudo: yes
-  template: src=nginx.conf
+  template: src={{ nginx_conf }}
             dest={{ nginx_location }}/conf/nginx.conf
             owner=root
             group=root
