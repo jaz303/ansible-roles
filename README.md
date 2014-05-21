@@ -37,6 +37,8 @@ I've also provided a `bootstrap` script for prepping a fresh server for manageme
 
 Variables exist for setting desired nginx and Passenger versions
 
+## nginx-standalone
+
 ## nginx-vhosts
 
 Sets up any number of nginx vhosts based on either predefined or custom templates.
@@ -64,6 +66,14 @@ Sets up any number of non-privileged users.
 
 Set up desired users and groups in `vars/main.yml`.
 
+## postgresql-databases
+
+## postgresql-server
+
+## rails-capistrano
+
 ## ruby-1.9.3
+
+## ruby-2.0.0
 
 ## ruby-common
