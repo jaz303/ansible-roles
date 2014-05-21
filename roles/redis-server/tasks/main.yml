@@ -1,0 +1,68 @@
+---
+
+- name: Create redis user/group
+  sudo: yes
+  user: name=redis
+        createhome=no
+        system=yes
+
+- name: Download the redis source code
+  sudo: no
+  get_url: url={{ redis_download_url }}
+           dest={{ source_directory }}
+           sha256sum={{ redis_checksum }}
+
+- name: Generate the redis installation script on the server
+  sudo: no
+  template: src=install-redis.sh
+            dest={{ source_directory }}/install-redis.sh
+            mode=700
+
+- name: Run the redis installation script
+  sudo: yes
+  command: "{{ source_directory }}/install-redis.sh
+           creates={{ redis_location }}/bin/redis-server"
+
+- name: Create redis configuration directory
+  sudo: yes
+  file: path={{ redis_config_file | dirname }}
+        owner=root
+        group=root
+        state=directory
+
+- name: Create redis log directory
+  sudo: yes
+  file: path={{ redis_log_file | dirname }}
+        owner=redis
+        group=redis
+        mode=755
+        state=directory
+
+- name: Create redis database snapshot directory
+  sudo: yes
+  file: path={{ redis_db_dir }}
+        owner=redis
+        group=redis
+        mode=750
+        state=directory
+
+- name: Generate the redis configuration file and restart the service if it has been updated
+  sudo: yes
+  template: src={{ redis_config_template }}
+            dest={{ redis_config_file }}
+            mode=644
+            owner=root
+            group=root
+  notify: redis-server.restart
+
+- name: Generate redis init script and restart the service if it has been updated
+  template: src=init-redis-server
+            dest=/etc/init.d/redis-server
+            owner=root
+            group=root
+            mode=755
+  notify: redis-server.restart
+
+- name: Enable the redis init script so the service will start at boot
+  command: update-rc.d redis-server defaults
+           creates=/etc/rc0.d/K01redis-server
