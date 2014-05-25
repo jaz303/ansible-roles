@@ -6,14 +6,13 @@
 - name: Update apt cache
   apt: update_cache=yes
 
-- name: Install git
-  apt: pkg=git
-
-- name: Install ntp
-  apt: pkg=ntp
-
-- name: Install vim
-  apt: pkg=vim
+- name: "Install git, ntp, links, vim"
+  apt: pkg={{ item }}
+  with_items:
+    - git
+    - ntp
+    - links
+    - vim
 
 - name: Install build prerequisites
   apt: pkg={{item}}
@@ -68,6 +67,10 @@
             owner=root
             group=root
             mode=0644
+  notify: postfix.restart
+
+- name: Ensure postfix is running
+  service: name=postfix state=started enabled=yes
 
 - name: Set up root mail alias
   lineinfile: "dest=/etc/aliases

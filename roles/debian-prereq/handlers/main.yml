@@ -8,3 +8,6 @@
 
 - name: postfix.aliases
   command: postalias /etc/aliases
+
+- name: postfix.restart
+  service: name=postfix state=restarted
