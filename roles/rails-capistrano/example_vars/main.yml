@@ -2,8 +2,8 @@
 
 rails_apps:
   - path: "/path/to/app"
-  - deploy_user: foo # user who will deploy the application
-  - web_user: www-data # user that web-server runs as
-  - web_group: www-data # group that the web-server runs as 
-  - db_template: templates/foo.yml # template used to generate database.yml
-  - db: "{{ foo.bar }}" # arbitrary dictionary passed to database template; accessible as item.db
+    deploy_user: foo # user who will deploy the application
+    web_user: www-data # user that web-server runs as
+    web_group: www-data # group that the web-server runs as 
+    db_template: templates/foo.yml # template used to generate database.yml
+    db: "{{ foo.bar }}" # arbitrary dictionary passed to database template; accessible as item.db
