@@ -22,8 +22,15 @@
         group={{ item.deploy_user }}
   with_items: rails_apps
 
-- name: "Ensure app shared directory exists"
+- name: "Ensure app shared/config directory exists"
   file: path={{ item.path }}/shared/config
+        state=directory
+        owner={{ item.deploy_user }}
+        group={{ item.deploy_user }}
+  with_items: rails_apps
+
+- name: "Ensure app shared/config/initializers directory exists"
+  file: path={{ item.path }}/shared/config/initializers
         state=directory
         owner={{ item.deploy_user }}
         group={{ item.deploy_user }}
