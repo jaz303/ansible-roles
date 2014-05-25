@@ -69,6 +69,13 @@
             group=root
             mode=0644
 
+- name: Set up root mail alias
+  lineinfile: "dest=/etc/aliases
+              regexp='^root:'
+              line='root: {{ root_mail_alias }}'
+              state=present"
+  notify: postfix.aliases
+
 #
 # SSH lockdown
 
