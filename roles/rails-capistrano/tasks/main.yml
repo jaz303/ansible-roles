@@ -1,57 +1,49 @@
 ---
 
 - name: "Ensure app root directory exists"
-  file: path={{ item.path }}
+  file: path={{ rails_app.path }}
         state=directory
-        owner={{ item.deploy_user }}
-        group={{ item.web_group }}
+        owner={{ rails_app.deploy_user }}
+        group={{ rails_app.web_group }}
         mode=750
-  with_items: rails_apps
 
 - name: "Ensure app releases directory exists"
-  file: path={{ item.path }}/releases
+  file: path={{ rails_app.path }}/releases
         state=directory
-        owner={{ item.deploy_user }}
-        group={{ item.deploy_user }}
-  with_items: rails_apps
+        owner={{ rails_app.deploy_user }}
+        group={{ rails_app.deploy_user }}
 
 - name: "Ensure app shared directory exists"
-  file: path={{ item.path }}/shared
+  file: path={{ rails_app.path }}/shared
         state=directory
-        owner={{ item.deploy_user }}
-        group={{ item.deploy_user }}
-  with_items: rails_apps
+        owner={{ rails_app.deploy_user }}
+        group={{ rails_app.deploy_user }}
 
 - name: "Ensure app shared/config directory exists"
-  file: path={{ item.path }}/shared/config
+  file: path={{ rails_app.path }}/shared/config
         state=directory
-        owner={{ item.deploy_user }}
-        group={{ item.deploy_user }}
-  with_items: rails_apps
+        owner={{ rails_app.deploy_user }}
+        group={{ rails_app.deploy_user }}
 
 - name: "Ensure app shared/config/initializers directory exists"
-  file: path={{ item.path }}/shared/config/initializers
+  file: path={{ rails_app.path }}/shared/config/initializers
         state=directory
-        owner={{ item.deploy_user }}
-        group={{ item.deploy_user }}
-  with_items: rails_apps
+        owner={{ rails_app.deploy_user }}
+        group={{ rails_app.deploy_user }}
 
 - name: "Ensure app log directory exists"
-  file: path={{ item.path }}/shared/log
+  file: path={{ rails_app.path }}/shared/log
         state=directory
-        owner={{ item.deploy_user }}
-        group={{ item.web_group }}
+        owner={{ rails_app.deploy_user }}
+        group={{ rails_app.web_group }}
         mode=770
-  with_items: rails_apps
 
 - name: "Ensure database.yml exists"
-  template: dest={{ item.path }}/shared/config/database.yml
-            src={{ item.db_template }}
-  with_items: rails_apps
+  template: dest={{ rails_app.path }}/shared/config/database.yml
+            src={{ rails_app.db_template }}
 
 - name: "Ensure database.yml is only readable by web user"
-  file: path={{ item.path }}/shared/config/database.yml
-        owner={{ item.web_user }}
-        group={{ item.web_group }}
+  file: path={{ rails_app.path }}/shared/config/database.yml
+        owner={{ rails_app.web_user }}
+        group={{ rails_app.web_group }}
         mode=640
-  with_items: rails_apps
