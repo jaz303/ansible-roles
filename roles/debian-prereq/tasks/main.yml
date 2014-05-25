@@ -38,8 +38,8 @@
     - build-essential
 
 - name: Set the system timezone
-  copy: content={{ system_timezone}}
-        dest=/etc/timezone
+  copy: dest=/etc/timezone
+        content={{ system_timezone}}
         owner=root
         group=root
         mode=0644
