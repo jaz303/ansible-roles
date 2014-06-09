@@ -3,39 +3,33 @@
 - name: "Ensure app root directory exists"
   file: path={{ rails_app.path }}
         state=directory
-        owner={{ rails_app.deploy_user }}
-        group={{ rails_app.web_group }}
-        mode=750
+        owner={{ rails_app.user }}
+        group={{ rails_app.group | default(rails_app.user) }}
+        mode=755
 
 - name: "Ensure app releases directory exists"
   file: path={{ rails_app.path }}/releases
         state=directory
-        owner={{ rails_app.deploy_user }}
-        group={{ rails_app.deploy_user }}
+        owner={{ rails_app.user }}
+        group={{ rails_app.group | default(rails_app.user) }}
 
 - name: "Ensure app shared directory exists"
   file: path={{ rails_app.path }}/shared
         state=directory
-        owner={{ rails_app.deploy_user }}
-        group={{ rails_app.deploy_user }}
+        owner={{ rails_app.user }}
+        group={{ rails_app.group | default(rails_app.user) }}
 
 - name: "Ensure app shared/config directory exists"
   file: path={{ rails_app.path }}/shared/config
         state=directory
-        owner={{ rails_app.deploy_user }}
-        group={{ rails_app.deploy_user }}
-
-- name: "Ensure app shared/config/initializers directory exists"
-  file: path={{ rails_app.path }}/shared/config/initializers
-        state=directory
-        owner={{ rails_app.deploy_user }}
-        group={{ rails_app.deploy_user }}
+        owner={{ rails_app.user }}
+        group={{ rails_app.group | default(rails_app.user) }}
 
 - name: "Ensure app log directory exists"
   file: path={{ rails_app.path }}/shared/log
         state=directory
-        owner={{ rails_app.deploy_user }}
-        group={{ rails_app.web_group }}
+        owner={{ rails_app.user }}
+        group={{ rails_app.group | default(rails_app.user) }}
         mode=770
 
 - name: "Ensure database.yml exists"
@@ -44,6 +38,6 @@
 
 - name: "Ensure database.yml is only readable by web user"
   file: path={{ rails_app.path }}/shared/config/database.yml
-        owner={{ rails_app.web_user }}
-        group={{ rails_app.web_group }}
+        owner={{ rails_app.user }}
+        group={{ rails_app.group | default(rails_app.user) }}
         mode=640
