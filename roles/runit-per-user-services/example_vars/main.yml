@@ -1,0 +1,5 @@
+---
+
+runit_per_user_services:
+  name: a_user
+  group: a_group

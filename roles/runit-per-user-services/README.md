@@ -7,7 +7,7 @@ This role may be used multiple times, once for each user for whom `runit` should
 ## Tasks
 
   * Creates `runit` service directory for user at `/home/$USER/service`
-  * Sets up the master runit instance to spawn the per-user task runner by creating a service at `/etc/service/user-$USER`
+  * Sets up the master `runit` instance to spawn the per-user task runner by creating a service directory at `/etc/service/user-$USER`
 
 ### Task Variables
 
