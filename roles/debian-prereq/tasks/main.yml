@@ -72,8 +72,12 @@
 - name: Disable rpcbind
   service: name=rpcbind state=stopped enabled=no
 
-- name: Disable exim
-  service: name=exim4 state=stopped enabled=no
+- name: Remove exim
+  apt: pkg={{ item }} state=absent
+  with_items:
+    - exim4
+    - exim4-base
+    - exim4-config
 
 - name: Install postfix
   apt: pkg=postfix state=latest
