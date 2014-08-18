@@ -1,0 +1,5 @@
+---
+node_location: "/opt/{{ node_version }}"
+node_path: "{{ node_location }}/bin"
+node: "{{ node_path }}/node"
+npm: "{{ node_path }}/npm"

@@ -1,0 +1,19 @@
+---
+- name: Download the node source code
+  sudo: no
+  get_url: url={{ node_download_location }}
+           dest={{ source_directory }}/{{ node_version }}.tar.gz
+           sha256sum={{ node_checksum }}
+
+- name: Generate the node installation script on the server
+  sudo: no
+  template: src=install-node.sh
+            dest={{ source_directory }}/install-node-{{ node_version }}.sh
+            owner=ansible
+            group=ansible
+            mode=700
+
+- name: Run the node installation script
+  sudo: no
+  command: "{{ source_directory }}/install-node-{{ node_version }}.sh
+           creates={{ node_location }}/bin/node"
