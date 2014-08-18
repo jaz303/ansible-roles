@@ -23,7 +23,7 @@
         mode=0644
 
 - name: "Install git, ntp, links, vim, ufw"
-  apt: pkg={{ item }}
+  apt: pkg={{ item }} state=latest
   with_items:
     - git
     - ntp
@@ -32,7 +32,7 @@
     - ufw
 
 - name: Install build prerequisites
-  apt: pkg={{item}}
+  apt: pkg={{item}} state=latest
   with_items:
     - autoconf
     - build-essential
