@@ -1,0 +1,8 @@
+---
+
+- name: Ensure Apache2 PHP5 packages are installed
+  apt: pkg={{ item }} state=latest
+  with_items:
+    - php5
+    - php5-mysql
+    - libapache2-mod-php5
