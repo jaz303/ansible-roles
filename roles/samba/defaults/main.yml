@@ -1,0 +1,8 @@
+---
+
+samba_name: samba
+samba_workgroup: WORKGROUP
+samba_comment: "Samba Dev Server"
+samba_interfaces: ""
+samba_broadcast: ""
+samba_wins: ""
