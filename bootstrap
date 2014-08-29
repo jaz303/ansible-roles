@@ -41,7 +41,7 @@ usermod -a -G ssh ansible
 #
 # SSH key for ansible user
  
-mkdir ~ansible/.ssh
+mkdir -p ~ansible/.ssh
 echo "$KEY" > ~ansible/.ssh/authorized_keys
 chown -R ansible:ansible ~ansible/.ssh
 chmod 700 ~ansible/.ssh
@@ -49,7 +49,8 @@ chmod 600 ~ansible/.ssh/authorized_keys
  
 #
 # Update sudoers
- 
+
+apt-get install sudo
 cp /etc/sudoers sudoers.tmp
 sed -i '/%sudo/c\%sudo ALL=(ALL:ALL) NOPASSWD: ALL' sudoers.tmp
 visudo -c -f sudoers.tmp && mv sudoers.tmp /etc/sudoers
