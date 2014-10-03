@@ -1,0 +1,9 @@
+---
+nginx_vhost:
+  name: "site"
+  template: "passenger-default.conf"
+  server_name: "localhost"
+  location: "/home/web/site"
+  rack_env: production # optional, defaults to 'production'
+  user: www-data
+  group: www-data

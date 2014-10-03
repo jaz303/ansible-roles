@@ -1,0 +1,5 @@
+---
+
+- name: Install runit
+  apt: pkg=runit
+       state=latest

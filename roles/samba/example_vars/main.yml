@@ -1,0 +1,10 @@
+samba_name: samba
+samba_workgroup: WORKGROUP
+samba_comment: "My Samba Server"
+samba_shares:
+  - path: /home/jason
+    group: jason
+    name: jason
+samba_users:
+  - name: jason
+    password: example

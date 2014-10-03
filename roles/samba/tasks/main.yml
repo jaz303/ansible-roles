@@ -1,0 +1,22 @@
+---
+
+- name: Samba is installed
+  apt:  pkg=samba state=installed
+  tags: samba
+
+- name: Ensure smbpassword is set
+  raw:  (echo {{ item.password }}; echo {{ item.password }}) | smbpasswd -s -a {{ item.name }}
+  with_items: samba_users
+  notify:
+    - samba.restart
+  tags: samba
+
+- name: Install samba config
+  template: src=smb.conf dest=/etc/samba/smb.conf owner=root group=root mode=0644
+  notify:
+    - samba.restart
+  tags: samba
+
+- name: Ensure samba is running
+  service: name=samba state=running
+  tags: samba

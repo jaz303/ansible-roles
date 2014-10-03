@@ -1,0 +1,23 @@
+---
+
+- name: Create runit service directory for user
+  sudo: yes
+  file: "path=/home/{{ runit_per_user_services.name }}/service
+  		owner={{ runit_per_user_services.name }}
+  		group={{ runit_per_user_services.group | default(runit_per_user_services.name) }}
+  		state=directory"
+
+- name: Create directory for per-user task runner
+  sudo: yes
+  file: "path=/etc/service/user-{{ runit_per_user_services.name }}
+        state=directory
+        owner=root
+        group=root"
+
+- name: Create runit task runner
+  sudo: yes
+  template: "src=run
+  			dest=/etc/service/user-{{ runit_per_user_services.name }}/run
+  			owner=root
+  			group=root
+  			mode=0750"

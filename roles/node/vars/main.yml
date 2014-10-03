@@ -1,0 +1,5 @@
+---
+node_version_number:    "v0.10.30"
+node_version:           "node-{{ node_version_number }}"
+node_checksum:          "3dfcbd307f5f5f266ef174e1443107da853cd3d0aa0b2493a44235d5908625d2"
+node_download_location: "http://nodejs.org/dist/{{ node_version_number }}/node-{{ node_version_number }}.tar.gz"

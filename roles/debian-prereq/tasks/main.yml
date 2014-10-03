@@ -6,24 +6,40 @@
 - name: Update apt cache
   apt: update_cache=yes
 
-- name: Install git
-  apt: pkg=git
+- name: Set hostname
+  hostname: name={{ inventory_hostname }}
 
-- name: Install ntp
-  apt: pkg=ntp
+- name: Update /etc/hosts
+  lineinfile: "dest=/etc/hosts
+              regexp='^127\\.0\\.1\\.1'
+              line='127.0.1.1\t{{ inventory_hostname }}'
+              state=present"
 
-- name: Install vim
-  apt: pkg=vim
+- name: Update /etc/mailname
+  copy: dest=/etc/mailname
+        content="{{ inventory_hostname }}\n"
+        owner=root
+        group=root
+        mode=0644
+
+- name: "Install git, ntp, links, vim, ufw"
+  apt: pkg={{ item }} state=latest
+  with_items:
+    - git
+    - ntp
+    - links
+    - vim
+    - ufw
 
 - name: Install build prerequisites
-  apt: pkg={{item}}
+  apt: pkg={{item}} state=latest
   with_items:
     - autoconf
     - build-essential
 
 - name: Set the system timezone
-  copy: content={{ system_timezone}}
-        dest=/etc/timezone
+  copy: dest=/etc/timezone
+        content={{ system_timezone}}
         owner=root
         group=root
         mode=0644
@@ -56,8 +72,12 @@
 - name: Disable rpcbind
   service: name=rpcbind state=stopped enabled=no
 
-- name: Disable exim
-  service: name=exim4 state=stopped enabled=no
+- name: Remove exim
+  apt: pkg={{ item }} state=absent
+  with_items:
+    - exim4
+    - exim4-base
+    - exim4-config
 
 - name: Install postfix
   apt: pkg=postfix state=latest
@@ -68,6 +88,17 @@
             owner=root
             group=root
             mode=0644
+  notify: postfix.restart
+
+- name: Ensure postfix is running
+  service: name=postfix state=started enabled=yes
+
+- name: Set up root mail alias
+  lineinfile: "dest=/etc/aliases
+              regexp='^root:'
+              line='root: {{ root_mail_alias }}'
+              state=present"
+  notify: postfix.aliases
 
 #
 # SSH lockdown

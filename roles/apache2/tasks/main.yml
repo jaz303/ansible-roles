@@ -1,0 +1,11 @@
+---
+
+- name: Ensure Apache2 packages are installed
+  apt: pkg={{ item }} state=latest
+  with_items:
+    - apache2
+    - apache2-mpm-prefork
+    - python-psycopg2
+
+- name: Ensure Apache2 is running
+  service: name=apache2 state=started

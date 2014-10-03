@@ -1,11 +1,32 @@
 ---
+
+#
+# Configurables
+
 redis_version: "2.8.9"
+redis_checksum: "7834c37f2ff186c46aef8e4a066dfbf1d6772a285aa31c19c58162f264f1007f"
 
 redis_config_template: "redis.conf"
-redis_checksum: "7834c37f2ff186c46aef8e4a066dfbf1d6772a285aa31c19c58162f264f1007f"
-redis_download_url: "http://download.redis.io/releases/redis-{{ redis_version }}.tar.gz"
-redis_location: "/opt/redis-{{ redis_version }}"
-redis_config_file: "{{ redis_location }}/etc/redis.conf"
+
+#
+# These variables are only used by the default config template and no other
+# aspect of redis configuration. If you supply your own redis_config_template
+# these variables are not strictly necessary (although you may continue to
+# refer to them if you wish)
+
+redis_port: 6379
+redis_bind_address: 127.0.0.1
+
+#
+#
+
 redis_log_file: "/var/log/redis/redis.log"
 redis_pid_file: "/var/run/redis.pid"
 redis_db_dir: "/var/opt/redis-{{ redis_version }}"
+
+#
+# Derived
+
+redis_download_url: "http://download.redis.io/releases/redis-{{ redis_version }}.tar.gz"
+redis_location: "/opt/redis-{{ redis_version }}"
+redis_config_file: "{{ redis_location }}/etc/redis.conf"

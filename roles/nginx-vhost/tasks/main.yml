@@ -1,0 +1,14 @@
+---
+- name: Setup nginx vhosts
+  template: src={{ nginx_vhost.template }}
+            dest=/etc/nginx/sites-available/{{ nginx_vhost.name }}.conf
+            owner=root
+            group=root
+            mode=0644
+  notify: nginx.restart
+
+- name: Enable nginx vhosts
+  file: path=/etc/nginx/sites-enabled/{{ nginx_vhost.name }}.conf
+        src=/etc/nginx/sites-available/{{ nginx_vhost.name }}.conf
+        state=link
+  notify: nginx.restart
